@@ -1,6 +1,7 @@
 package com.github.atomfrede.vertx.publisher;
 
 import com.hazelcast.config.Config;
+import com.hazelcast.config.InterfacesConfig;
 import com.hazelcast.config.NetworkConfig;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
@@ -20,7 +21,7 @@ public class Publisher extends AbstractVerticle {
         networkConfig.setPort(5702);
         networkConfig.setPortAutoIncrement(false);
 
-        //networkConfig.setInterfaces(new InterfacesConfig().setEnabled(true).addInterface("192.168.0.111"));
+        networkConfig.setInterfaces(new InterfacesConfig().setEnabled(true).addInterface("192.168.0.111"));
 
         conf.setNetworkConfig(networkConfig);
         mgr.setConfig(conf);
@@ -29,7 +30,7 @@ public class Publisher extends AbstractVerticle {
 
         VertxOptions options = new VertxOptions()
                 .setClustered(true)
-                //.setClusterHost("192.168.0.111")
+                .setClusterHost("192.168.0.111")
                 .setClusterManager(mgr);
 
         Vertx.clusteredVertx(options, res -> {
